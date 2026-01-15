@@ -1,0 +1,31 @@
+Create chat UI in chatui/ folder using Azure OpenAI resources with RAG pattern.
+
+Requirements:
+1. Natural language interface to interact with database via APIs
+2. Use Retrieval-Augmented Generation with content from RAG folder
+3. Display lists in pretty formatted style within chat bubbles
+
+Security - Format user responses safely:
+1. First escape HTML: Convert <, >, & to HTML entities (prevent XSS)
+2. Then apply formatting:
+   - **text** → <strong>text</strong>
+   - Lines starting with 1. → <ol><li> numbered lists
+   - Lines starting with - or * → <ul><li> bullet lists  
+   - \n → <br> for line breaks
+3. Use innerHTML (not textContent) to render formatted HTML
+
+Authentication:
+- Use ManagedIdentityCredential with explicit client ID:
+```csharp
+var managedIdentityClientId = _configuration["ManagedIdentityClientId"];
+if (!string.IsNullOrEmpty(managedIdentityClientId))
+    credential = new ManagedIdentityCredential(managedIdentityClientId);
+else
+    credential = new DefaultAzureCredential();
+```
+
+Fallback Behavior:
+- If GenAI resources not deployed: Display dummy responses explaining GenAI services unavailable
+- Inform user to run deploy-with-chat.sh for full experience
+
+The chat UI must use APIs from prompt-008 exclusively (no direct database access).

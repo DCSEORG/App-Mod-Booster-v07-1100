@@ -1,27 +1,17 @@
 This is the order in which the coding agent should read and work on the prompts:
 
-prompt-006-baseline-script-instruction,
-prompt-001-create-app-service,
-prompt-017-create-managed-identity,
-prompt-002-create-azure-sql,
-prompt-027-bicep-preview-api,
-prompt-008-use-existing-db,
-prompt-004-create-app-code,
-prompt-022-display-error-messages,
-prompt-005-deploy-app-code,
-prompt-007-add-api-code,
-prompt-016-python-for-sql,
-prompt-021-python-for-dbrole,
-prompt-024-python-stored-procedures,
-prompt-009-create-genai-resources,
-prompt-010-add-chat-ui,
-prompt-020-model-function-calling,
-prompt-018-extra-genai-instructions,
-prompt-025-clientid-for-chat,
-prompt-019-chatui-deploy-file,
-prompt-011-azure-services-diagram,
-prompt-023-deployment-order-considerations
+prompt-001-create-managed-identity,
+prompt-002-create-app-service,
+prompt-003-create-azure-sql,
+prompt-004-import-database-schema,
+prompt-005-configure-database-roles,
+prompt-006-create-stored-procedures,
+prompt-007-create-application-code,
+prompt-008-create-api-endpoints,
+prompt-009-create-deployment-scripts,
+prompt-010-create-genai-resources,
+prompt-011-create-chat-ui,
+prompt-012-implement-function-calling,
+prompt-013-create-architecture-diagram
 
-
-
-If the agent cant find the exact named matching file it shuld not try to make up any text or code and skip to the next one
+Each prompt is a complete, actionable task requiring minimal planning. All considerations from the original prompts have been consolidated and retained. If the agent cannot find a prompt file, skip to the next one.

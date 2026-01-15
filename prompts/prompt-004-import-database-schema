@@ -1,0 +1,23 @@
+Create Python script run-sql.py to import database schema using Azure AD authentication.
+
+Configuration:
+- SERVER: Use SQL server FQDN from Bicep outputs
+- DATABASE: "Northwind"
+- SQL_SCRIPT_FILE: "Database-Schema/Northwinds Schema.sql"
+
+Script must:
+1. Use AzureCliCredential for authentication
+2. Connect via ODBC with token authentication (SQL_COPT_SS_ACCESS_TOKEN = 1256)
+3. Parse SQL file by GO statements
+4. Execute each statement individually with error handling
+5. Log progress with ✓ and ✗ symbols
+
+Cross-platform considerations:
+- Use sed with .bak extension for Mac compatibility: 
+  sed -i.bak "s/PATTERN/REPLACEMENT/g" file && rm -f file.bak
+
+Dependencies (to be installed in deployment script):
+- pyodbc
+- azure-identity
+
+The script will be called from the deployment script after SQL firewall rules are configured.

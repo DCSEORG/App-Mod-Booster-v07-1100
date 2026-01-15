@@ -1,0 +1,27 @@
+Create ASP.NET Razor Pages C# application matching the functionality in Legacy-Screenshots folder.
+
+Requirements:
+- Target framework: .NET 8 (LTS) - <TargetFramework>net8.0</TargetFramework>
+- Modern, clean UI design (reference: https://cdn.dribbble.com/userupload/4279134/file/original-5e630140a5ad559268aaf9fd3650b403.png?resize=2048x1536&vertical=center)
+- Index page with buttons/links for all database operations (add, read, filter data)
+- Use stored procedures exclusively (no direct SQL, no table access)
+
+Database Connection:
+- Use managed identity authentication: Authentication=Active Directory Managed Identity
+- Connection string format:
+  ```
+  Server=tcp:<server>.database.windows.net;
+  Database=<db>;
+  Authentication=Active Directory Managed Identity;
+  User Id=<client-id-of-user-assigned-mi>;
+  ```
+- Do NOT use access tokens or other authentication methods
+- For local development: Use "Authentication=Active Directory Default" (requires az login)
+
+Error Handling:
+- Return dummy data if database connection fails
+- Display detailed error in header bar: file name, line number, and exact fix for managed identity issues
+- Do NOT show code in error messages
+- Errors must be user-actionable
+
+Application must interact with database ONLY through APIs (see prompt-007).

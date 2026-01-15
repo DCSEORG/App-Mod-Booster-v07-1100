@@ -1,0 +1,51 @@
+Implement Azure OpenAI function calling in chat service for real database operations.
+
+Requirements:
+
+1. Analyze Existing Code:
+   - Identify all service methods that should be exposed to the LLM
+   - Document their input parameters, return types, and data models
+
+2. Define Function Tools (ChatCompletionsFunctionToolDefinition):
+   - Clear, descriptive function names
+   - Detailed descriptions of what each function does
+   - JSON schemas for all parameters with proper types and descriptions
+   - Mark required vs optional parameters
+   
+   Example:
+   ```csharp
+   var options = new ChatCompletionOptions
+   {
+       Tools = { 
+           ChatTool.CreateFunctionTool("get_products", "Retrieves products from database"),
+           ChatTool.CreateFunctionTool("create_order", "Creates new order in database")
+       }
+   };
+   ```
+
+3. Orchestration Loop:
+   - Send function definitions with chat request
+   - Detect tool_calls in LLM response
+   - Parse arguments and execute corresponding service methods
+   - Collect results from executed functions
+   - Send function results back as function messages
+   - Repeat if LLM makes additional tool calls
+   - Return final natural language response
+
+4. Error Handling:
+   - Gracefully handle service method failures
+   - Return error information to LLM for user-friendly explanation
+   - Validate function arguments before execution
+   - Log errors appropriately
+
+5. System Prompt Updates:
+   - Inform AI it has access to real functions
+   - List available capabilities
+   - Provide guidance on when to use each function
+
+6. Response Formatting:
+   - Serialize complex objects to JSON for function results
+   - Ensure user-friendly responses after operations
+   - Handle empty results gracefully
+
+IMPORTANT: Only modify chat service layer. Do NOT change backend services or data access code. Use dependency injection to access services.

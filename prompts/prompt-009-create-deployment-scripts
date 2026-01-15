@@ -1,0 +1,43 @@
+Create deployment scripts: deploy.sh (basic) and deploy-with-chat.sh (with GenAI).
+
+Deployment Order (with 30-second waits for resource readiness):
+1. Deploy resource group, App Service, and SQL Database
+2. Configure App Service settings
+3. Wait 30 seconds for SQL Server to be ready
+4. Add IP to SQL firewall (current IP + Azure services)
+5. Install Python dependencies (pip3 install --quiet pyodbc azure-identity)
+6. Import database schema (python3 run-sql.py)
+7. Configure database roles (python3 run-sql-dbrole.py)
+8. Create stored procedures (python3 run-sql-stored-procs.py)
+9. Build and zip application code
+10. Deploy app.zip to App Service
+
+SQL Firewall Configuration:
+```bash
+MY_IP=$(curl -s https://api.ipify.org)
+SQL_SERVER_NAME=$(echo $SQL_SERVER_FQDN | cut -d'.' -f1)
+
+# Allow Azure services (0.0.0.0-0.0.0.0)
+az sql server firewall-rule create --name "AllowAllAzureIPs" ...
+
+# Add deployment IP
+az sql server firewall-rule create --name "AllowDeploymentIP" --start-ip-address $MY_IP ...
+```
+
+App.zip Requirements:
+- Exclude from .gitignore (include in repo)
+- Files must be at ZIP root (not in subdirectory)
+- Must unzip to app folder with DLL inside
+
+deploy-with-chat.sh:
+- Deploys GenAI resources first
+- Retrieves endpoints via: az deployment group show --query "properties.outputs.openAIEndpoint.value"
+- Sets App Service environment variables:
+  * OpenAI__Endpoint
+  * OpenAI__DeploymentName
+  * AZURE_CLIENT_ID (managed identity client ID)
+  * ManagedIdentityClientId
+
+Both scripts must be executable with single command: bash deploy.sh or bash deploy-with-chat.sh
+
+User notification: App URL is <app-url>/Index (not root)

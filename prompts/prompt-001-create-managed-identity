@@ -1,0 +1,15 @@
+Create a user assigned managed identity with naming pattern: mid-AppModAssist-[uniqueString]
+
+Use uniqueString(resourceGroup().id) for uniqueness, not timestamps or utcNow().
+
+Important: When using a user-assigned managed identity, the principalId property is not directly on the identity object. Access it via identity.properties.principalId.
+
+Output the following from the managed identity module:
+- managedIdentityId (resource ID)
+- managedIdentityClientId (for AZURE_CLIENT_ID environment variable)
+- managedIdentityPrincipalId (for role assignments)
+
+This managed identity will be used by:
+1. App Service to connect to Azure SQL
+2. App Service to connect to Azure OpenAI and Cognitive Search
+3. GenAI resources for cross-service authentication

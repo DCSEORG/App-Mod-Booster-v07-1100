@@ -1,0 +1,22 @@
+Create REST APIs for all functionality shown in Legacy-Screenshots.
+
+Requirements:
+1. Create API endpoints for all database operations
+2. APIs must use stored procedures (no direct SQL)
+3. Include Swagger/OpenAPI documentation
+4. Both the main app and chat UI must use these APIs (no direct database access)
+
+API Design:
+- RESTful conventions (GET, POST, PUT, DELETE)
+- Proper HTTP status codes
+- JSON request/response bodies
+- Input validation
+- Error handling with meaningful messages
+
+Swagger Configuration:
+- Enable Swagger UI at /swagger
+- Document all endpoints with descriptions, parameters, and response types
+- Include example requests/responses
+- Allow testing APIs directly from Swagger UI
+
+The APIs serve as the single source of truth for all database interactions.
