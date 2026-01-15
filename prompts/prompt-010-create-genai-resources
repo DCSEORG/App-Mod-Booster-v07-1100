@@ -1,0 +1,29 @@
+Create Bicep code for Azure OpenAI and Cognitive Search (AI Search) resources.
+
+Configuration:
+- SKU: S0 (low cost for development)
+- Model: GPT-4o in swedencentral region (even if resource group is UKSOUTH - avoid quota issues)
+- Capacity: 8 (Standard SKU)
+- Use lower case names (customSubDomainName must be lowercase)
+
+Role Assignments:
+- Assign "Cognitive Services OpenAI User" role to the managed identity from prompt-001
+- Use managedIdentityPrincipalId (passed as parameter from main.bicep)
+- DO NOT create new managed identity in this module
+
+Outputs Required:
+- openAIEndpoint
+- openAIModelName
+- openAIName
+- searchEndpoint (if AI Search is created)
+
+GenAISettings:
+- Store all configuration in a GenAISettings file for reference
+
+Important Notes:
+- Use managedIdentity.properties.principalId for role assignments (it's a GUID)
+- This module receives principalId from app-service.bicep via main.bicep
+- The App Service's managed identity is used for all GenAI authentication
+- Settings cannot be configured in Bicep due to circular dependency - deployment script handles this
+
+This is OPTIONAL infrastructure - deploy.sh works without it, deploy-with-chat.sh includes it.

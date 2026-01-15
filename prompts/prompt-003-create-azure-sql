@@ -1,0 +1,31 @@
+Create Bicep code to deploy Azure SQL Database with Entra ID authentication.
+
+Security Requirements (MCAPS Policy):
+1. Azure AD-Only Authentication: Set azureADOnlyAuthentication: true (mandatory)
+2. SQL authentication must be disabled
+3. Configure Entra ID administrator: use deployer's Object ID and UPN
+4. Grant managed identity ##MS_DatabaseManager## permissions
+
+Database Configuration:
+- Database name: Northwind
+- Tier: Basic (for development)
+- Region: UKSOUTH
+- Enable firewall rule for Azure services
+
+API Version:
+- Use stable GA version: @2021-11-01 (not preview versions)
+- Use parent property for child resources (databases, administrators, firewall rules)
+
+Outputs needed:
+- sqlServerName
+- sqlServerFqdn
+- databaseName
+
+Resource Naming:
+- Use lower case names only
+- Use uniqueString(resourceGroup().id) for uniqueness (not md5sum or timestamps)
+
+Parameters to accept:
+- adminObjectId (deployer's Object ID)
+- adminLogin (deployer's UPN)
+- managedIdentityPrincipalId (for database access)

@@ -1,0 +1,17 @@
+Create stored-procedures.sql (if database schema doesn't already have stored procedures).
+
+Requirements:
+1. Analyze Database-Schema/Northwinds Schema.sql to identify all tables
+2. Create stored procedures for all CRUD operations
+3. Use "CREATE OR ALTER PROCEDURE" syntax
+4. Name procedures clearly (e.g., GetProducts, CreateOrder, UpdateCustomer)
+
+Create run-sql-stored-procs.py:
+- Same structure as run-sql.py and run-sql-dbrole.py
+- SQL_SCRIPT_FILE: "stored-procedures.sql"
+
+Application code MUST:
+- Use ONLY stored procedures (no direct table access, no T-SQL in app code)
+- Not call any stored procedure names that don't exist in stored-procedures.sql
+
+This enforces separation of concerns and prevents SQL injection.

@@ -1,0 +1,15 @@
+Create Bicep code to deploy an App Service to UKSOUTH region.
+
+Configuration:
+- SKU: Standard S1 (to avoid cold start issues)
+- Assign the user-assigned managed identity created in prompt-001
+- Use lower case names for all Azure resources (never upper case)
+- Use uniqueString(resourceGroup().id) for unique resource naming
+
+Output from this module:
+- appServiceName
+- appServiceUrl
+- managedIdentityPrincipalId (from the assigned identity)
+- managedIdentityClientId (for environment variable AZURE_CLIENT_ID)
+
+Note: Do NOT configure OpenAI__Endpoint or OpenAI__DeploymentName in Bicep app settings - this creates circular dependency. These will be set post-deployment via deployment script.
