@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Expense Management</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <h1>💰 Expense Management System</h1>
+                </div>
+                <div class="navbar-menu">
+                    <a href="/Index" class="nav-link">📊 Expenses</a>
+                    <a href="/AddExpense" class="nav-link">➕ Add Expense</a>
+                    <a href="/ApproveExpenses" class="nav-link">✅ Approve</a>
+                    <a href="/Chat" class="nav-link">💬 AI Chat</a>
+                    <a href="/swagger" class="nav-link">📘 API Docs</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="error-banner">
+            <div class="container">
+                <strong>⚠️ Error:</strong> @TempData["ErrorMessage"]
+                @if (TempData["ErrorLocation"] != null)
+                {
+                    <br />
+                    <small>Location: @TempData["ErrorLocation"]</small>
+                }
+                @if (TempData["ErrorHelp"] != null)
+                {
+                    <br />
+                    <small>@TempData["ErrorHelp"]</small>
+                }
+            </div>
+        </div>
+    }
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="success-banner">
+            <div class="container">
+                <strong>✓</strong> @TempData["SuccessMessage"]
+            </div>
+        </div>
+    }
+    
+    <main role="main" class="container">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 - Expense Management System - <a href="/swagger">API Documentation</a></p>
+        </div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

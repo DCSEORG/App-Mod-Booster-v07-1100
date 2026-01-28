@@ -1,0 +1,71 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Expenses";
+}
+
+<div class="page-header">
+    <h2>📊 Expenses</h2>
+    @if (Model.UsingDummyData)
+    {
+        <div class="badge badge-warning">Using Sample Data</div>
+    }
+</div>
+
+<div class="filter-section">
+    <label>Filter by Status:</label>
+    <div class="filter-buttons">
+        <a href="/Index" class="btn @(string.IsNullOrEmpty(Model.FilterStatus) ? "btn-primary" : "btn-secondary")">All</a>
+        <a href="/Index?status=Draft" class="btn @(Model.FilterStatus == "Draft" ? "btn-primary" : "btn-secondary")">Draft</a>
+        <a href="/Index?status=Submitted" class="btn @(Model.FilterStatus == "Submitted" ? "btn-primary" : "btn-secondary")">Submitted</a>
+        <a href="/Index?status=Approved" class="btn @(Model.FilterStatus == "Approved" ? "btn-primary" : "btn-secondary")">Approved</a>
+        <a href="/Index?status=Rejected" class="btn @(Model.FilterStatus == "Rejected" ? "btn-primary" : "btn-secondary")">Rejected</a>
+    </div>
+</div>
+
+@if (Model.Expenses.Any())
+{
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var expense in Model.Expenses)
+                {
+                    <tr class="status-@expense.StatusName.ToLower()">
+                        <td>@expense.ExpenseDate.ToString("dd/MM/yyyy")</td>
+                        <td>@expense.UserName</td>
+                        <td>@expense.CategoryName</td>
+                        <td>@expense.Currency @expense.AmountDecimal.ToString("N2")</td>
+                        <td>
+                            <span class="status-badge status-@expense.StatusName.ToLower()">
+                                @expense.StatusName
+                            </span>
+                        </td>
+                        <td>@expense.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="summary">
+        <strong>Total Expenses:</strong> @Model.Expenses.Count | 
+        <strong>Total Amount:</strong> £@Model.Expenses.Sum(e => e.AmountDecimal).ToString("N2")
+    </div>
+}
+else
+{
+    <div class="empty-state">
+        <p>No expenses found.</p>
+        <a href="/AddExpense" class="btn btn-primary">Add Your First Expense</a>
+    </div>
+}
