@@ -1,0 +1,59 @@
+@page
+@model ChatModel
+@{
+    ViewData["Title"] = "AI Chat";
+}
+
+<div class="page-header">
+    <h2>💬 AI Chat Assistant</h2>
+</div>
+
+@if (!Model.IsChatConfigured)
+{
+    <div class="info-box">
+        <h3>GenAI Features Not Configured</h3>
+        <p>The chat functionality requires Azure OpenAI and AI Search resources.</p>
+        <p>To enable chat features, redeploy the infrastructure with the <code>-DeployGenAI</code> switch:</p>
+        <pre>.\deploy-infra\deploy.ps1 -ResourceGroup "rg-yourapp-YYYYMMDD" -Location "uksouth" -DeployGenAI</pre>
+    </div>
+}
+else
+{
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <div class="chat-message assistant">
+                <div class="message-content">
+                    <strong>AI Assistant:</strong> Hello! I'm your expense management assistant. I can help you:
+                    <ul>
+                        <li>View all expenses or filter by status</li>
+                        <li>Create new expenses</li>
+                        <li>Submit expenses for approval</li>
+                        <li>Approve or reject expenses</li>
+                        <li>Get summaries and reports</li>
+                    </ul>
+                    What would you like to do?
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <textarea id="chatInput" class="chat-input" placeholder="Type your message here... (e.g., 'Show me all submitted expenses' or 'Add a £50 lunch expense for today')" rows="3"></textarea>
+            <button id="sendButton" class="btn btn-primary">Send</button>
+        </div>
+
+        <div class="chat-examples">
+            <strong>Try asking:</strong>
+            <button class="example-btn" onclick="sendExample('Show me all expenses')">Show me all expenses</button>
+            <button class="example-btn" onclick="sendExample('List pending expenses')">List pending expenses</button>
+            <button class="example-btn" onclick="sendExample('Add a £25 taxi expense for today')">Add a £25 taxi expense</button>
+            <button class="example-btn" onclick="sendExample('What categories are available?')">What categories are available?</button>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @if (Model.IsChatConfigured)
+    {
+        <script src="~/js/chat.js" asp-append-version="true"></script>
+    }
+}
